@@ -79,6 +79,7 @@ QUERY;
 		$file = fopen("elementi.txt", "r");
 		$fileread = fread($file, filesize("elementi.txt"));
 		$elements = explode("\n", $fileread);
+		$elcount = count($elements);
 		$total = 0;
 		foreach ($elements as $element)	 {
 			$el = explode(";", $element);
@@ -100,7 +101,10 @@ QUERY;
 				$total++;
 			}
 		}	
-		echo("Nuovi monumenti con immagine: " . $total);
+		echo("Monumenti che prima non avevano un'immagine: " . $elcount . "\n");
+		echo("Monumenti che ora non hanno un'immagine: " . $elcount - $total . "\n");
+		echo("Nuovi monumenti con immagine: " . $total . "\n");
+
 	}
 
 ?>
