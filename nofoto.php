@@ -11,7 +11,6 @@
 	$commons = \wm\Commons::instance();
 	
 	if ($mode == 1) {
-		$file = fopen("elementi.txt", "w+");
 			// Wikidata SPARQL Query
 	$query = <<<QUERY
 SELECT ?item ?itemLabel ?coords ?wlmid ?image
@@ -78,6 +77,8 @@ if ($regione == "Puglia") {
 			}
 QUERY;
 	$file = fopen("elementi" . $regione . ".txt", "w+");
+	} else {
+		$file = fopen("elementi.txt", "w+");
 	}
 		$rows = \wm\Wikidata::querySPARQL( $query );
 	
