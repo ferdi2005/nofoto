@@ -13,35 +13,17 @@
 	if ($mode == 1) {
 			// Wikidata SPARQL Query
 	$query = <<<QUERY
-SELECT ?item ?itemLabel ?coords ?wlmid ?image
+SELECT ?item ?itemLabel ?wlmid 
 WHERE {
 ?item wdt:P2186 ?wlmid ;
 					wdt:P17 wd:Q38 ;
 MINUS { ?item wdt:P18 ?image }
 MINUS {?item wdt:P373 ?cat}
-MINUS {
-    ?wlmst pqv:P580 [ wikibase:timeValue ?start ; wikibase:timePrecision ?sprec ] .
-    FILTER (
-      # precisione 9 è l'anno
-      ( ?sprec >  9 && ?start >= "2020-10-01T00:00:00+00:00"^^xsd:dateTime ) ||
-      ( ?sprec < 10 && ?start >= "2021-01-01T00:00:00+00:00"^^xsd:dateTime )
-    )
-  }
-  # esclude i monumenti che hanno una data di termine precedente all'inizio del concorso
-  MINUS {
-    ?wlmst pqv:P582 [ wikibase:timeValue ?end ; wikibase:timePrecision ?eprec ] .
-    FILTER (
-      ( ?eprec >  9 && ?end < "2020-09-01T00:00:00+00:00"^^xsd:dateTime ) ||
-      ( ?eprec < 10 && ?end < "2020-01-01T00:00:00+00:00"^^xsd:dateTime )
-    )
-  }
-  # esclude i monumenti per cui è indicata una data con un anno diverso da quello del concorso
-  MINUS {
-    ?wlmst pq:P585 ?date .
-    FILTER ( ?date < "2020-01-01T00:00:00+00:00"^^xsd:dateTime || ?date >= "2021-01-01T00:00:00+00:00"^^xsd:dateTime )
-  }
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],it" }
-	}
+		MINUS {
+			?wlmst pq:P585 ?date .
+			FILTER ( ?date < "2020-01-01T00:00:00+00:00"^^xsd:dateTime || ?date >= "2021-01-01T00:00:00+00:00"^^xsd:dateTime )
+		}	SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],it" }
+			}
 QUERY;
 
 if ($regione == "Puglia") {
@@ -53,22 +35,6 @@ if ($regione == "Puglia") {
 							?item wdt:P17 wd:Q38 .
 		MINUS { ?item wdt:P18 ?image }
 		MINUS { ?item wdt:P373 ?cat }
-		MINUS {
-			?wlmst pqv:P580 [ wikibase:timeValue ?start ; wikibase:timePrecision ?sprec ] .
-			FILTER (
-			# precisione 9 è l'anno
-			( ?sprec >  9 && ?start >= "2020-10-01T00:00:00+00:00"^^xsd:dateTime ) ||
-			( ?sprec < 10 && ?start >= "2021-01-01T00:00:00+00:00"^^xsd:dateTime )
-			)
-		}
-		# esclude i monumenti che hanno una data di termine precedente all'inizio del concorso
-		MINUS {
-			?wlmst pqv:P582 [ wikibase:timeValue ?end ; wikibase:timePrecision ?eprec ] .
-			FILTER (
-			( ?eprec >  9 && ?end < "2020-09-01T00:00:00+00:00"^^xsd:dateTime ) ||
-			( ?eprec < 10 && ?end < "2020-01-01T00:00:00+00:00"^^xsd:dateTime )
-			)
-		}
 		# esclude i monumenti per cui è indicata una data con un anno diverso da quello del concorso
 		MINUS {
 			?wlmst pq:P585 ?date .
