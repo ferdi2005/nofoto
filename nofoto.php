@@ -74,13 +74,13 @@ QUERY;
 			}
 		}
 		echo("Ho finito di preparare il file di output, esegui questo script di nuovo nella stessa cartella del file elementi.txt usando l'opzione due alla fine di WLM per generare le statistiche.\n");
-		echo("Ci sono ben " . $elnum . " monumenti.\n");
+		echo("Ci sono ben " . $elnum . " monumenti senza neanche una foto!\n");
 		fclose($file);
 	}
 	if ($mode == 2) {
 		$file = fopen("elementi.txt", "r");
 		if ($regione == "Puglia") {
-			$file = fopen("elementi" . $regione . ".txt", "w+");
+			$file = fopen("elementi" . $regione . ".txt", "r");
 		}
 		$new = fopen("nuovielementi.txt", "w+");
 		$fileread = fread($file, filesize("elementi.txt"));
@@ -110,7 +110,6 @@ QUERY;
 			echo('Controllo ' . $el[1] . " - " . $total .  " monuementi con una foto in più.\n");
 		}	
 		echo("Monumenti che prima non avevano un'immagine: " . $elcount . "\n");
-		echo("Monumenti che ora non hanno un'immagine: " . $elcount - $total . "\n");
 		echo("Nuovi monumenti con immagine: " . $total . "\n");
 		fclose($file);
 		fclose($new);
