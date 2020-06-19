@@ -51,26 +51,20 @@ QUERY;
 		$elements = [];
 		$elnum = 0;
 		foreach( $rows as $row ) {
-			// Mettere che si evita di procedere con file diversi
-			$search = '"' . $row->wlmid->value. '"';
+			$search = '"' . $row->wlmid->value. '"';	
 			$response = $commons->fetch([
 				'action' => 'query',
 				'list' => 'search',
 				'srsearch' => $search,
+				'srwhat' => 'text',
 				'srnamespace' => '6',
-				'srinfo' => "totalhits",
-				"srlimit" => '1',
+				"srlimit" => '10'
 			]);
-			$count = 0;
-			foreach ($response->query->search as $r) {
-				$count++;
-			}
-
-			if ($count == 0) {
+			if ($response->query->totalhits) {
 				$elnum++;
 				$string = $row->wlmid->value . ";" . basename($row->item->value) . "\n";
 				fwrite($file, $string);
-				echo("Aggiunto elemento " . $row->item->value . "\n");
+				 echo("Aggiunto elemento " . $row->item->value . "\n");
 			}
 		}
 		echo("Ho finito di preparare il file di output, esegui questo script di nuovo nella stessa cartella del file elementi.txt usando l'opzione due alla fine di WLM per generare le statistiche.\n");
@@ -89,20 +83,16 @@ QUERY;
 		$total = 0;
 		foreach ($elements as $element)	 {
 			$el = explode(";", $element);
-			$search = '"' . $el[0]. '"';
+			$search = '"' . $el[0]. '"';	
 			$response = $commons->fetch([
 				'action' => 'query',
 				'list' => 'search',
 				'srsearch' => $search,
+				'srwhat' => 'text',
 				'srnamespace' => '6',
-				'srinfo' => "totalhits",
-				"srlimit" => '1',
+				"srlimit" => '10'
 			]);
-			$count = 0;
-			foreach ($response->query->search as $r) {
-				$count++;
-			}
-			if($count > 0) {
+			if($response->query->totalhits) {
 				$total++;
 				$string = $element . "\n";
 				fwrite($new, $string);
