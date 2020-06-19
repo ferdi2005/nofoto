@@ -60,7 +60,7 @@ QUERY;
 				'srnamespace' => '6',
 				"srlimit" => '10'
 			]);
-			if ($response->query->totalhits) {
+			if ($response->query->searchinfo->totalhits == 0) {
 				$elnum++;
 				$string = $row->wlmid->value . ";" . basename($row->item->value) . "\n";
 				fwrite($file, $string);
@@ -92,7 +92,7 @@ QUERY;
 				'srnamespace' => '6',
 				"srlimit" => '10'
 			]);
-			if($response->query->totalhits) {
+			if($response->query->searchinfo->totalhits > 0) {
 				$total++;
 				$string = $element . "\n";
 				fwrite($new, $string);
