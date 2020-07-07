@@ -1,3 +1,6 @@
+# Questo tool non è più necessario, i dati vengono tenuti automaticamente da [https://github.com/ferdi2005/wikilovesmonuments](quest'altro tool), non verrà più mantenuto
+
+
 # Monumenti senza foto
 Questo tool trova i monumenti senza foto in Wiki Loves Monuments Italia. Per eseguirlo, una volta installato l'ambiente PHP su Windows, basta dare:
 
